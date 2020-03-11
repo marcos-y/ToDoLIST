@@ -1,0 +1,2 @@
+realizada, fecha realizada ,fecha creaciom: todolo hace el backend...el front end solo manda el nombre o id de tarea
+

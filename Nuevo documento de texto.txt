@@ -1,0 +1,15 @@
+to do liste: tarea: entidad: crear,modificar,eliminar,listar tareas, 
+
+post: crea
+
+put:modificar
+
+get:obtener
+
+get/:params -> obtener1 
+
+delete ->borrar
+
+Una lista de tareas tiene la tarea en si, fecha de creacion ,fecha de realizada, realizada o no realizada...
+
+implementar frontEnd y backend (array)

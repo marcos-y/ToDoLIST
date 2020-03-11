@@ -1,0 +1,77 @@
+const express = require("express");
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb', parameterLimit: 50000 }));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(express.json());
+
+const personas = [
+  {
+    userId: 1,
+    id: 1,
+    title: "delectus aut autem",
+    completed: false
+  },
+  {
+    userId: 1,
+    id: 2,
+    title: "quis ut nam facilis et officia qui",
+    completed: false
+  },
+  {
+    userId: 1,
+    id: 3,
+    title: "fugiat veniam minus",
+    completed: false
+  }
+];
+
+app.get("/personas", (req, res) => {
+  res.send(personas);
+});
+
+app.get("/personas/:idPersona", (req, res) => {
+  const idPersona = req.params.idPersona;
+  const persona = personas.find(personita => personita.id === parseInt(idPersona));
+  res.send(persona);
+});
+
+app.post("/personas", (req, res) => {
+  const persona = req.body
+  personas.push(persona);
+  res.json({ 
+     code: 200, 
+     message: 'PERSON ADD', 
+     personas});
+});
+
+app.put("/personas/:idPersona", (req, res) => {
+   const idPersona = req.params.idPersona;
+   const newTitle = req.body.title;
+   const persona = personas.find(persona => persona.id == idPersona);
+   persona.title = newTitle;
+
+  res.json({ 
+     code: 200, 
+     message: 'PERSON TITLE MODIFIED', 
+     persona});
+});
+
+app.delete("/personas/:idPersona", (req, res) => {
+   const personasAux = personas.filter(persona => persona.id != req.params.idPersona)
+   res.json({ 
+      code: 200, 
+      message: 'PERSON DELETE', 
+      personas: personasAux});
+});
+
+app.use("*", (req, res) => {
+  res.send("NO SE ENCONTRO");
+});
+
+app.listen(8000, () => {
+  console.log("HOLA MUNDO");
+  console.log("HOLA MUNDO");
+  console.log("estoy funcionando");
+});
