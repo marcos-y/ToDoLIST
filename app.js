@@ -8,7 +8,7 @@ app.use(bodyParser.json({ limit: '10mb' })); // idem anerior, configuraciones de
 app.use(cors()); // aqui decimos  que app utilize los cors requeridos en la linea 3
 app.options('*', cors()); //idem anterior
 
-app.listen(8000,()=>{
+app.listen(8000, () => {
     console.log('puerto 8000 funciona');
 })
 
@@ -23,7 +23,7 @@ app.post('/tareas', (req, res) => {
     const realizada = false;
     const fechaRealizada = null;
     const fechaCreada = new Date().toLocaleString();;// fecha en iso
-    
+
     const tarea = {
         id,
         nombre,
@@ -34,41 +34,56 @@ app.post('/tareas', (req, res) => {
 
     tareas.push(tarea);
     // avisa al front end q salio todo bien
-    res.json({mensaje:'tarea agregada'});
+    res.json({ mensaje: 'tarea agregada' });
 });
 
 // LISTAR TAREAS
-app.get("/tareas", (req,res) => {
+app.get("/tareas", (req, res) => {
     const respuesta = {
-        mensaje:'listado de tareas',
+        mensaje: 'listado de tareas',
         tareas
     }
     res.json(respuesta);
 });
 
 //localhost:8000/tareas/5
-app.get('/tareas/:idTarea',(req,res) =>{
+app.get('/tareas/:idTarea', (req, res) => {
     const idTarea = req.params.idTarea; //5 ...params siempre con gett!! // "tarea =>"" nace y muere dentro del find, 
     const tarea = tareas.find(tarea => tarea.id === parseInt(idTarea))
     const respuesta = {
-        mensaje:'busqueda tarea',
+        mensaje: 'busqueda tarea',
         tarea
     }
     res.json(respuesta);
-    if(!tarea){
+    if (!tarea) {
         respuesta.mensaje = 'tarea no encontrada',
-        tarea = {}
+            tarea = {}
         res.json(respuesta)
     }
 })
 
-  //ELIMINAR 
-  app.delete('/tareas/:idTarea',(req,res) =>{
-    const tareaAux = tareas.filter(tarea => tarea.id != req.params.idTarea)
+//ELIMINAR 
+app.delete('/tareas/:idTarea', (req, res) => {
+    const tareaAux = tareas.find(tarea => tarea.id === parseInt(idTarea))
     const respuesta = {
-        mensaje:'tarea eliminada',
+        mensaje: 'tarea eliminada',
         tareaAux
     }
     res.json(respuesta)
-  }
-  )
+}
+)
+
+//MODIFICAR 
+app.put('/tareas/:idTarea', (req, res) => {
+    const idTarea = req.params.idTarea;
+    const tareaAux = tareas.find(tarea => tarea.id === parseInt(idTarea))
+
+    tareaAux.nombre = req.body.nombre;
+
+    const respuesta = {
+    mensaje: 'tarea modificada',
+    tareaAux
+    }
+    res.json(respuesta)
+})
+
